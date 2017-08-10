@@ -1,0 +1,14 @@
+2017-08-08 07:44:36:807 - info: [Appium] Welcome to Appium v1.6.5
+2017-08-08 07:44:36:824 - info: [Appium] Non-default server args:
+2017-08-08 07:44:36:824 - info: [Appium]   address: 127.0.0.1
+2017-08-08 07:44:36:825 - info: [Appium]   log: D:\workspace\AppiumTest\log\main1502178265397.log
+2017-08-08 07:44:36:825 - info: [Appium]   defaultCapabilities: {
+2017-08-08 07:44:36:825 - info: [Appium]     deviceName: NFNNP78T99999999
+2017-08-08 07:44:36:825 - info: [Appium]   }
+2017-08-08 07:44:36:826 - info: [Appium] Default capabilities, which will be added to each request unless overridden by desired capabilities:
+2017-08-08 07:44:36:828 - info: [Appium]   deviceName: 'NFNNP78T99999999'
+2017-08-08 07:44:36:873 - info: [Appium] Appium REST http interface listener started on 127.0.0.1:4723
+2017-08-08 07:44:37:022 - info: [HTTP] --> GET /wd/hub/status {}
+2017-08-08 07:44:37:025 - info: [debug] [MJSONWP] Calling AppiumDriver.getStatus() with args: []
+2017-08-08 07:44:37:119 - info: [debug] [MJSONWP] Responding to client with driver.getStatus() result: {"build":{"version":"1.6.5","revision":null}}
+2017-08-08 07:44:37:125 - info: [HTTP] <-- GET /wd/hub/status 200 100 ms - 83 
