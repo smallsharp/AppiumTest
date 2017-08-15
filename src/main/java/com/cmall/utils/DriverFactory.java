@@ -107,11 +107,11 @@ public class DriverFactory {
 	 */
 	public static AndroidDriver<MobileElement> initDriver(String ip, int port, String deviceName) {
 
-		log.info("init driver with: [ip= " + ip +" ,deviceName= "+ deviceName + " ,port= " + port);
+		log.info("init driver with: [ip= " + ip +" ,deviceName= "+ deviceName + " ,port= " + port + "]");
 		
 		DesiredCapabilities dc = new DesiredCapabilities();
-//		File app = new File("apps/play-debug.apk"); // 指定app的存放目录
-//		dc.setCapability("app", app.getAbsolutePath());
+		File app = new File("apps/play-debug.apk"); // 指定app的存放目录
+		dc.setCapability("app", app.getAbsolutePath());
 		dc.setCapability("unicodeKeyboard", true); // 支持中文输入
 		dc.setCapability("platformName", "Android");
 		dc.setCapability("deviceName", deviceName);

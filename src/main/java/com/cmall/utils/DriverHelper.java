@@ -9,11 +9,8 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.testng.Assert;
-import com.android.ddmlib.AndroidDebugBridge;
-import com.android.ddmlib.IDevice;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidKeyCode;
 
 /**
  * driver操作工具类
@@ -24,15 +21,8 @@ public class DriverHelper {
 
 	private Logger log = Logger.getLogger(DriverHelper.class);
 	private AndroidDriver<MobileElement> driver;
-	public DriverHelper() {
-		
-	}
 	
 	public DriverHelper(AndroidDriver<MobileElement> mdriver) {
-		this.driver = mdriver;
-	}
-
-	public void setDriver(AndroidDriver<MobileElement> mdriver) {
 		this.driver = mdriver;
 	}
 
@@ -276,30 +266,6 @@ public class DriverHelper {
 		driver.executeScript(js);
 	}
 
-
-	/**
-	 * 返回指定页面
-	 */
-	public void backToActivity(String ActivityName) {
-
-		try {
-			if (ActivityName.contains(driver.currentActivity())) {
-				return;
-			}
-
-			for (int i = 0; i < 6; i++) {
-				if (ActivityName.contains(driver.currentActivity())) {
-					return;
-				}
-				Thread.sleep(2500);
-				pressKeyCode(AndroidKeyCode.BACK);
-			}
-
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
 	// 获取操作的控件字符串
 	private String splitElement(MobileElement mobileElement) {
 		// 用"->"分割，分成数组，取下标为1的
@@ -307,68 +273,6 @@ public class DriverHelper {
 		// -> id: com.tude.android:id/btn_jump]
 		String str = mobileElement.toString().split("-> ")[1];
 		return str.substring(0, str.length() - 1);
-	}
-
-	public void tap_StartBuilt() {
-
-		int width = driver.manage().window().getSize().width;
-		int height = driver.manage().window().getSize().height;
-		System.out.println("width:" + width);
-		System.out.println("height:" + height);
-
-		if (height == 1280) {
-			driver.tap(1, width / 2, height / 1280 * 1250, 500);
-			return;
-		}
-
-		if (height == 1776) {
-			driver.tap(1, width / 2, height / 1776 * 1710, 500);
-			return;
-		}
-
-		if (height == 1920) {
-			driver.tap(1, width / 2, height / 1920 * 1880, 500);
-			return;
-		}
-	}
-
-	public void tap_White() {
-
-		int width = driver.manage().window().getSize().width;
-		int height = driver.manage().window().getSize().height;
-		if (height == 1280) {
-			driver.tap(1, width / 720 * 92, height / 1280 * 850, 500);
-			return;
-		}
-
-		if (height == 1920) {
-			driver.tap(1, width / 100 * 13, height / 80 * 53, 500);
-			return;
-		}
-		if (height == 1776 && width == 1080) {
-			driver.tap(1, width / 1080 * 138, height / 1776 * 1126, 500);
-			return;
-		}
-	}
-
-	public void tap_S() {
-
-		int width = driver.manage().window().getSize().width;
-		int height = driver.manage().window().getSize().height;
-		if (height == 1280) {
-			driver.tap(1, width / 720 * 92, height / 1280 * 980, 500);
-			return;
-		}
-
-		if (height == 1920) {
-			driver.tap(1, width / 100 * 13, height / 30 * 23, 500);
-			return;
-		}
-
-		if (height == 1776 && width == 1080) {
-			driver.tap(1, width / 1080 * 138, height / 1776 * 1328, 500);
-			return;
-		}
 	}
 
 	public boolean isPageLoaded() {
@@ -399,7 +303,6 @@ public class DriverHelper {
 	 * @param millis
 	 */
 	public void pause(long millis) {
-		log.info("执行了等待");
 		try {
 			Thread.sleep(millis);
 		} catch (InterruptedException e) {
@@ -434,38 +337,5 @@ public class DriverHelper {
 		return height;
 	}
 
-	IDevice device;
-
-	private IDevice getDevice() {
-
-		AndroidDebugBridge.init(false);
-		AndroidDebugBridge bridge = AndroidDebugBridge.createBridge();
-		try {
-			Thread.sleep(1000);
-			// Calling getDevices() right after createBridge(String, boolean)
-			// will generally result in an empty list.
-			if (bridge.hasInitialDeviceList()) {
-				IDevice devices[] = bridge.getDevices();
-				if (devices.length >= 0) {
-					device = devices[0];
-				}
-				return device;
-			}
-			System.out.println("没有检测到设备");
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public String getDeviceName() {
-
-		if (device == null) {
-			device = getDevice();
-		}
-		String brand = device.getProperty("ro.product.brand");
-		String name = device.getSerialNumber();
-		return brand + "_" + name;
-	}
 
 }

@@ -23,7 +23,8 @@ public class DDMlibUtil {
 		return instance;
 	}
 	private DDMlibUtil() {
-		// TODO Auto-generated constructor stub
+		// 初始化ADB
+		AndroidDebugBridge.init(false);
 	}
 	
 	public void init() {
@@ -39,7 +40,7 @@ public class DDMlibUtil {
 	 * 
 	 * @return
 	 */
-	public List<String> getSerialNumber() {
+	public List<String> getDevicesName() {
 		List<String> list = new ArrayList<>();
 		AndroidDebugBridge adb= AndroidDebugBridge.createBridge();
 		if (waitForDevice(adb)) {
@@ -159,7 +160,7 @@ public class DDMlibUtil {
 	public void test() {
 		DDMlibUtil ddMlibUtil = DDMlibUtil.getInstance();
 		ddMlibUtil.init();
-		List<String> devices = ddMlibUtil.getSerialNumber();
+		List<String> devices = ddMlibUtil.getDevicesName();
 		for (String string : devices) {
 			System.out.println(string);
 		}

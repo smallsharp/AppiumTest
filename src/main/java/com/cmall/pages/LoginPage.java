@@ -14,36 +14,36 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
  */
 public class LoginPage {
 
-	private AndroidDriver<MobileElement> mdriver;
-	private DriverHelper helper;
+	private static AndroidDriver<MobileElement> driver;
+	private static DriverHelper helper;
 	private Logger log = Logger.getLogger(LoginPage.class);
 
-	// 这个空的构造方式是必须要的,init 页面需要
+	//这个空的构造方式是必须要的,init 页面需要
 	public LoginPage() {
 	}
 
 	public LoginPage(AndroidDriver<MobileElement> driver) {
-		this.mdriver = driver;
+		this.driver = driver;
+	}
+	
+	static {
 		helper = new DriverHelper(driver);
 	}
 
-	@FindBy(id = "com.play.android:id/btn_jump")
-	private MobileElement e_skipVideo; // 跳过
-
 	@AndroidFindBy(id = "com.play.android:id/btn_profile")
-	private MobileElement m_my; // 我的
+	private MobileElement btn_profile; // 我的
 
 	@FindBy(id = "com.play.android:id/tv_account")
-	private MobileElement e_account; // 账号密码登录
+	private MobileElement tv_account; // 账号密码登录
 
 	@FindBy(id = "com.play.android:id/et_account")
-	private MobileElement e_molibe; // 手机号
+	private MobileElement et_account; // 手机号
 
 	@FindBy(id = "com.play.android:id/et_password")
 	private MobileElement e_password; // 密码
 
 	@FindBy(id = "com.play.android:id/btn_login")
-	private MobileElement e_login; // 登录
+	private MobileElement btn_login; // 登录
 
 	@FindBy(id = "com.play.android:id/tv_sign_in")
 	private MobileElement tv_sign_in;
@@ -58,15 +58,15 @@ public class LoginPage {
 	 * @param password
 	 */
 	public void login(String mobile, String password) {
-		helper.clickonElement(m_my);
-		helper.clickonElement(e_account);
-		helper.sendKeys(e_molibe, mobile);
+		helper.clickonElement(btn_profile);
+		helper.clickonElement(tv_account);
+		helper.sendKeys(et_account, mobile);
 		// Reporter.log("输入手机号：" + mobile, true);
 		log.info("输入手机号：" + mobile);
 		helper.sendKeys(e_password, password);
 		// Reporter.log("输入密码：" + password, true);
 		log.info("输入密码：" + password);
-		helper.clickonElement(e_login);
+		helper.clickonElement(btn_login);
 	}
 
 }

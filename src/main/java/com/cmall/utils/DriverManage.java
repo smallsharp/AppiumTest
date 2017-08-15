@@ -30,21 +30,21 @@ public class DriverManage {
 	}
 	
 	static {
-		log.info("准备开始测试，正在进行测试环境初始化…");
+//		log.info("准备开始测试，正在进行测试环境初始化…");
 		String ip = "127.0.0.1";
 		int port = 4723;
-		DDMlibUtil ddMlib = DDMlibUtil.getInstance();
-		ddMlib.init();
-		List<String> devicesName = ddMlib.getSerialNumber();
-		log.info("检测到设备"+devicesName.size()+"台");
-		ddMlib.finish();
+		
+		List<String> devicesName = DDMlibUtil.getInstance().getDevicesName();
+		
+//		log.info("检测到设备"+devicesName.size()+"台");
+		
 		int i = 1;
 		for (String name : devicesName) {
 			DriverManage dManage = new DriverManage();
 			dManage.setIp(ip);
 			dManage.setPort(port);
 			dManage.setName(name);
-			log.info("第"+i+"台设备：" + name + ", port:" + port);
+//			log.info("第"+i+"台设备：" + name + ", port:" + port);
 			port += 2;
 			i ++;
 			dmList.add(dManage);
@@ -55,6 +55,7 @@ public class DriverManage {
 	 * 初始化driver
 	 */
 	public static void init() {
+		log.info("【第三步】：批量初始化AndroidDriver");
 		List<Thread> threadList = new ArrayList<Thread>();
 		for (final DriverManage dm : dmList) {
 			Thread thread = new Thread(new Runnable() {
