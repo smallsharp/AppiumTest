@@ -3,16 +3,16 @@ package com.cmall.spring;
 import static org.testng.Assert.assertEquals;
 import org.apache.log4j.Logger;
 
-import com.cmall.utils.DriverHelper;
+import com.cmall.utils.Helper;
 import com.spring.constant.IActivities;
 import com.spring.constant.IDFactory;
 
 public class ActionOne implements IActionOne {
 	
 	private Logger log = Logger.getLogger(ActionOne.class);
-	private DriverHelper dHelper;
+	private Helper dHelper;
 	
-	public void setDHelper(DriverHelper dHelper) {
+	public void setDHelper(Helper dHelper) {
 		this.dHelper = dHelper;
 	}
 

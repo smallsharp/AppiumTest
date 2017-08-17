@@ -9,10 +9,10 @@ import com.spring.constant.IDFactory;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 
-public class TestCase_CheckModel implements ITestCase {
+public class TestCase_GotoModel implements ITestCase {
 
 	private AndroidDriver<MobileElement> driver;
-	private Logger log = Logger.getLogger(TestCase_CheckModel.class);
+	private Logger log = Logger.getLogger(TestCase_GotoModel.class);
 
 	@Override
 	public void setDriver(AndroidDriver<MobileElement> driver) {
@@ -21,57 +21,9 @@ public class TestCase_CheckModel implements ITestCase {
 
 	@Override
 	public void runCase() {
-//		this.checkModel();
-		this.rotateModel();
+		this.gotoModel();
 	}
 	
-	/**
-	 * 对模型进行旋转操作
-	 * adb shell screenrecord /sdcard/demo.mp4 录制屏幕
-	 */
-	private void rotateModel() {
-		
-		if (!driver.currentActivity().equals(IActivities.GOODS_WEB3DVIEW_ACTIVITY)) {
-			this.gotoModel();
-		}
-		
-		int width = driver.manage().window().getSize().width;
-		int height = driver.manage().window().getSize().height;
-		
-		log.info("向右滑动一个屏幕");
-		driver.swipe(10, height/2, width-10, height/2, 1000);
-		Helper.pause(1000);
-		log.info("向左滑动一个屏幕");
-		driver.swipe(width-10, height/2, 10, height/2, 1000);
-		Helper.pause(1000);
-		
-		log.info("向右滑动两个屏幕");
-		driver.swipe(10, height/2, width-10, height/2, 1000);
-		Helper.pause(1000);
-		
-		driver.swipe(10, height/2, width-10, height/2, 1000);
-		Helper.pause(2000);
-		
-		log.info("向左滑动两个屏幕");
-		driver.swipe(width-10, height/2, 10, height/2, 1000);
-		Helper.pause(1000);
-		
-		driver.swipe(width-10, height/2, 10, height/2, 1000);
-		Helper.pause(1000);
-		
-/*		for (int i = 0; i < 5; i++) {
-			log.info("缩放模型");
-			driver.pinch(width/2, height/2);
-			MultiTouchAction multiAction = new MultiTouchAction(driver);
-			TouchAction action1 = new TouchAction(driver).press(width/2, height-100).moveTo(width/2, height).release();
-			TouchAction action2 = new TouchAction(driver).press(width/2, height+100).moveTo(width/2, height).release();
-			multiAction.add(action1);
-			multiAction.add(action2);
-			driver.performMultiTouchAction(multiAction);
-			Helper.pause(1000);
-		}*/
-
-	}
 
 	/**
 	 * 从首页进入模型页面

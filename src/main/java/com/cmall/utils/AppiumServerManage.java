@@ -17,6 +17,7 @@ public class AppiumServerManage {
 	private static Logger log = Logger.getLogger(AppiumServerManage.class);
 	private static final String KILL_NODE = "taskkill /F /im node.exe";
 	private static List<String> devicesName = DDMlibUtil.getInstance().getDevicesName();
+	private static boolean isRunning = false;
 
 	static {
 		checkEnvironment();
@@ -34,7 +35,6 @@ public class AppiumServerManage {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		log.info("【第一步】检查环境，测试依赖的环境,稍后…");
 		log.info("检测到设备" + devicesName.size() + "台");
 		if (devicesName.size() <= 0) {
@@ -70,6 +70,13 @@ public class AppiumServerManage {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
@@ -149,7 +156,11 @@ public class AppiumServerManage {
 	 * 停止服务
 	 */
 	public void stopServer() {
-		
+		try {
+			Runtime.getRuntime().exec(KILL_NODE);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	class MyRunnable implements Runnable {

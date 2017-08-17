@@ -50,5 +50,10 @@ public interface IDFactory {
 	 * 商品列表
 	 */
 	String IV_GOOD = "com.play.android:id/iv_good";
+	
+	/**
+	 * 模型显示框
+	 */
+	String NAVTIVE_MODEL = "com.play.android:id/rela_webview_parent";
 
 }

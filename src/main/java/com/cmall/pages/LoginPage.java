@@ -2,7 +2,7 @@ package com.cmall.pages;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.support.FindBy;
-import com.cmall.utils.DriverHelper;
+import com.cmall.utils.Helper;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -15,19 +15,19 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 public class LoginPage {
 
 	private static AndroidDriver<MobileElement> driver;
-	private static DriverHelper helper;
+	private static Helper helper;
 	private Logger log = Logger.getLogger(LoginPage.class);
 
-	//这个空的构造方式是必须要的,init 页面需要
+	//init需要添加，反射时需要
 	public LoginPage() {
 	}
 
 	public LoginPage(AndroidDriver<MobileElement> driver) {
-		this.driver = driver;
+		LoginPage.driver = driver;
 	}
 	
 	static {
-		helper = new DriverHelper(driver);
+		helper = new Helper(driver);
 	}
 
 	@AndroidFindBy(id = "com.play.android:id/btn_profile")
@@ -58,15 +58,13 @@ public class LoginPage {
 	 * @param password
 	 */
 	public void login(String mobile, String password) {
-		helper.clickonElement(btn_profile);
-		helper.clickonElement(tv_account);
-		helper.sendKeys(et_account, mobile);
-		// Reporter.log("输入手机号：" + mobile, true);
-		log.info("输入手机号：" + mobile);
-		helper.sendKeys(e_password, password);
-		// Reporter.log("输入密码：" + password, true);
-		log.info("输入密码：" + password);
-		helper.clickonElement(btn_login);
+		
+		Helper.clickonElement(btn_profile);
+		Helper.clickonElement(tv_account);
+		Helper.sendKeys(et_account, mobile);
+		Helper.sendKeys(e_password, password);
+		Helper.clickonElement(btn_login);
+		
 	}
 
 }

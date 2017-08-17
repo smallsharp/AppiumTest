@@ -11,19 +11,45 @@ import org.openqa.selenium.OutputType;
 import org.testng.Assert;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import java_cup.runtime.virtual_parse_stack;
 
 /**
  * driver操作工具类
  * @author cm
  *
  */
-public class DriverHelper {
+public class Helper {
 
-	private Logger log = Logger.getLogger(DriverHelper.class);
+	private static Logger log = Logger.getLogger(Helper.class);
 	private AndroidDriver<MobileElement> driver;
 	
-	public DriverHelper(AndroidDriver<MobileElement> mdriver) {
+	public Helper(AndroidDriver<MobileElement> mdriver) {
 		this.driver = mdriver;
+	}
+	
+	
+	/**
+	 * 等待Activity指定的Activity出现，等待时间5秒钟
+	 * @param driver
+	 * @param activity
+	 * @return
+	 */
+	public static boolean waitActivity(AndroidDriver<MobileElement> driver,String activity) {
+		
+		for (int i = 0; i < 10; i++) {
+			String currentActivity = driver.currentActivity();
+			if (i%2 == 0) {
+				log.info("wait activity=["+ activity +"],current=["+currentActivity+"]");
+			}
+			if (currentActivity.equals(activity)) {
+				log.info("[Activity] Found activity ==> " + "(" + activity + ")");
+				return true;
+			} else {
+				pause(500);
+			}
+		}
+		
+		return false;
 	}
 
 	/**
@@ -43,7 +69,7 @@ public class DriverHelper {
 					return true;
 				}
 			}
-			log.error("[ActivityNotFound]:" + "(" + activityName + ")" + "\n" + "CurrentActivity is:"
+			log.error("[ActivityNotFound]:" + "(" + activityName + ")" + "\n" + "currentActivity is:"
 					+ "(" + driver.currentActivity() + ")");
 
 		} catch (Exception e) {
@@ -57,19 +83,19 @@ public class DriverHelper {
 	 * @param mobileElement
 	 * @return
 	 */
-	public boolean waitElement(MobileElement mobileElement) {
+	public static boolean waitElement(MobileElement mobileElement) {
 
-		for (int j = 0; j < 3; j++) {
-			log.info("[Element] Waiting element ==> " + "(" + splitElement(mobileElement) + ")");
+		for (int j = 0; j < 20; j++) {
+			
+			if (j%2 == 0) {
+				log.info("[Element] Waiting element ==> " + "(" + splitElement(mobileElement) + ")");
+			}
+			
 			if (mobileElement.isDisplayed()) {
 				log.info("[Element]" + "(" + splitElement(mobileElement) + ")" + " Found");
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 				return true;
 			}
+			pause(1000);
 		}
 		log.error("[Element] ElementNotFound ==> " + "(" + splitElement(mobileElement) + ")");
 		return false;
@@ -95,7 +121,7 @@ public class DriverHelper {
 	 * 点击
 	 * @param element
 	 */
-	public void clickonElement(MobileElement mobileElement) { 
+	public static void clickonElement(MobileElement mobileElement) { 
 		log.info("[Element] click on element ==> " + "(" + splitElement(mobileElement) + ")");
 		mobileElement.click();
 	}
@@ -106,7 +132,7 @@ public class DriverHelper {
 	 * @param element
 	 * @param text
 	 */
-	public void sendKeys(MobileElement mobileElement, CharSequence... text) {
+	public static void sendKeys(MobileElement mobileElement, CharSequence... text) {
 		log.info("[Element] input text ==> " + "(" + splitElement(mobileElement) + ")");
 		mobileElement.sendKeys(text);
 	}
@@ -267,7 +293,7 @@ public class DriverHelper {
 	}
 
 	// 获取操作的控件字符串
-	private String splitElement(MobileElement mobileElement) {
+	private static String splitElement(MobileElement mobileElement) {
 		// 用"->"分割，分成数组，取下标为1的
 		// [[MyAndroidDriver: on LINUX (750e968d-5203-408c-9407-cf695a5eb436)]
 		// -> id: com.tude.android:id/btn_jump]
@@ -302,7 +328,7 @@ public class DriverHelper {
 	 * 
 	 * @param millis
 	 */
-	public void pause(long millis) {
+	public static void pause(long millis) {
 		try {
 			Thread.sleep(millis);
 		} catch (InterruptedException e) {
