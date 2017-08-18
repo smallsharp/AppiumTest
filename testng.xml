@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Play测试" >
+    
+    <test name="查看从首页进入模型" preserve-order="true">
+        <classes>
+            <class name="com.cmall.main.TestOpenModel"></class>
+        </classes>
+    </test>
+    
+    <test name="模型页面：旋转操作模型" preserve-order="true">
+        <classes>
+            <class name="com.cmall.main.TestCheckModel"></class>
+        </classes>
+    </test>
+    
+    <test name="模型页面：切换商品" preserve-order="true">
+        <classes>
+            <class name="com.cmall.main.TestCheckGoods"></class>
+        </classes>
+    </test>
+    
+    <listeners>
+        <listener class-name="org.uncommons.reportng.HTMLReporter" />
+    </listeners>
+    
+</suite>

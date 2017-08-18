@@ -3,7 +3,7 @@ package com.cmall.spring;
 import static org.testng.Assert.assertEquals;
 import org.apache.log4j.Logger;
 
-import com.cmall.utils.Helper;
+import com.cmall.base.Helper;
 import com.spring.constant.IActivities;
 import com.spring.constant.IDFactory;
 
