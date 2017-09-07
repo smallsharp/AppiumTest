@@ -3,69 +3,48 @@ package com.cmall.base;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
-
 import com.cmall.utils.DDMlibUtil;
-
+import com.spring.constant.IServerArgs;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 
 public class DriverManage {
 	
 	private static Logger log = Logger.getLogger(DriverManage.class);
-	public static List<AndroidDriver<MobileElement>> driverList = new ArrayList<AndroidDriver<MobileElement>>();
-	public static List<DriverManage> dmList = new ArrayList<DriverManage>();
-
-	private String ip;
-	private int port;
-	private String name;
+	private static List<AndroidDriver<MobileElement>> driversList = new ArrayList<AndroidDriver<MobileElement>>();
+	private static List<ServerConfig> serverConfigList = new ArrayList<>();
+	private static List<String> devicesName = DDMlibUtil.getInstance().getDevicesName();
 	
-	public void setIp(String ip) {
-		this.ip = ip;
+	public static List<AndroidDriver<MobileElement>> getDriverList(){
+		return DriverManage.driversList;
 	}
 
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	static {
-//		log.info("准备开始测试，正在进行测试环境初始化…");
-		String ip = "127.0.0.1";
+		String ip = IServerArgs.IP;
 		int port = 4723;
-		
-		List<String> devicesName = DDMlibUtil.getInstance().getDevicesName();
-		
-//		log.info("检测到设备"+devicesName.size()+"台");
-		
-		int i = 1;
 		for (String name : devicesName) {
-			DriverManage dManage = new DriverManage();
-			dManage.setIp(ip);
-			dManage.setPort(port);
-			dManage.setName(name);
-//			log.info("第"+i+"台设备：" + name + ", port:" + port);
+			ServerConfig config = new ServerConfig();
+			config.setIp(ip);
+			config.setPort(port);
+			config.setName(name);
 			port += 2;
-			i ++;
-			dmList.add(dManage);
+			serverConfigList.add(config);
 		}
 	}
 
 	/**
 	 * 初始化driver
 	 */
-	public static void init() {
-		log.info("【第三步】：批量初始化AndroidDriver");
+	public static void initDriver() {
+		log.info("[驱动准备阶段] ==> 准备初始化");
 		List<Thread> threadList = new ArrayList<Thread>();
-		for (final DriverManage dm : dmList) {
+		for (final ServerConfig config : serverConfigList) {
 			Thread thread = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					AndroidDriver<MobileElement> driver = DriverFactory.initDriver(dm.ip, dm.port,dm.name);
-					log.info(dm.name+" --> "+driver);
-					driverList.add(driver);
+					// 分别初始化driver实例
+					AndroidDriver<MobileElement> driver = DriverFactory.initDriver(config.getIp(), config.getPort(),config.getName());
+					driversList.add(driver);
 				}
 			});
 			thread.start();
@@ -86,8 +65,7 @@ public class DriverManage {
 	 * 结束测试
 	 */
 	public static void finish() {
-		
-		for (AndroidDriver<MobileElement> driver : driverList) {
+		for (AndroidDriver<MobileElement> driver : driversList) {
 			driver.quit();
 		}
 	}

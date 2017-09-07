@@ -25,21 +25,23 @@ public class OpenModel implements ITestCase {
 		this.gotoModel();
 	}
 	
-
 	/**
 	 * 从首页进入模型页面
 	 */
 	private void gotoModel() {
 		
 		List<MobileElement> homeList = driver.findElementsById(IDFactory.SDV_IMAGE);
-
+		log.info("首页产品的数量："+ homeList.size());
+		
 		if (homeList.size() < 1) {
 			assertTrue(false, "首页产品List，没有加载成功");
 		}
 		// 点击 一级目录 男装,进入二级目录，如果由于某种原因导致未打开，则重新点击，直至打开页面
 		do {
-			homeList.get(1).click();
+//			homeList.get(1).click();
+			Helper.clickonElement(homeList.get(1));
 		} while (!Helper.waitActivity(driver, IActivities.PRODUCT_CLASSIFITION_ACTIVITY));
+		
 		
 		MobileElement m_tee_native = driver.findElementById(IDFactory.NAVIVE_TEE);
 		int x = m_tee_native.getLocation().getX();

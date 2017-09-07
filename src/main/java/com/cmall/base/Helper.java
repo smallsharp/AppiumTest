@@ -11,7 +11,6 @@ import org.openqa.selenium.OutputType;
 import org.testng.Assert;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import java_cup.runtime.virtual_parse_stack;
 
 /**
  * driver操作工具类
@@ -122,7 +121,7 @@ public class Helper {
 	 * @param element
 	 */
 	public static void clickonElement(MobileElement mobileElement) { 
-		log.info("[Element] click on element ==> " + "(" + splitElement(mobileElement) + ")");
+		log.info("[Click] ==> " + "(" + splitElement(mobileElement) + ")");
 		mobileElement.click();
 	}
 
@@ -133,7 +132,7 @@ public class Helper {
 	 * @param text
 	 */
 	public static void sendKeys(MobileElement mobileElement, CharSequence... text) {
-		log.info("[Element] input text ==> " + "(" + splitElement(mobileElement) + ")");
+		log.info("[Input] ==> " + "(" + splitElement(mobileElement) + ")");
 		mobileElement.sendKeys(text);
 	}
 
@@ -143,14 +142,14 @@ public class Helper {
 	 * @param androidkeycode
 	 */
 	public void pressKeyCode(int androidkeycode) {
-		log.info("Press AndroidKeyCode ==> " + androidkeycode);
+		log.info("[Press AndroidKeyCode] ==> " + androidkeycode);
 		driver.pressKeyCode(androidkeycode);
 	}
 	
 	
 	public String getCurrentActivity() {
 		String current  = driver.currentActivity();
-		log.info("Current Activity:"+current);
+		log.info("Current Activity:"+ current);
 		return current;
 	}
 
@@ -295,8 +294,7 @@ public class Helper {
 	// 获取操作的控件字符串
 	private static String splitElement(MobileElement mobileElement) {
 		// 用"->"分割，分成数组，取下标为1的
-		// [[MyAndroidDriver: on LINUX (750e968d-5203-408c-9407-cf695a5eb436)]
-		// -> id: com.tude.android:id/btn_jump]
+		// [[MyAndroidDriver: on LINUX (750e968d-5203-408c-9407-cf695a5eb436)]-> id: com.tude.android:id/btn_jump]
 		String str = mobileElement.toString().split("-> ")[1];
 		return str.substring(0, str.length() - 1);
 	}

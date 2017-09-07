@@ -17,7 +17,6 @@ public interface IActivities {
 	 */
 	public static final String HOME_ACTIVITY = ".activity.main.HomeActivity";
 
-	
 	/**
 	 * 登录界面
 	 */
