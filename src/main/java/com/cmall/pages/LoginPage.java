@@ -17,7 +17,6 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 public class LoginPage {
 
 	private static AndroidDriver<MobileElement> driver;
-	private static Helper helper;
 	private Logger log = Logger.getLogger(LoginPage.class);
 
 	//init需要添加，反射时需要
@@ -26,10 +25,6 @@ public class LoginPage {
 
 	public LoginPage(AndroidDriver<MobileElement> driver) {
 		LoginPage.driver = driver;
-	}
-	
-	static {
-		helper = new Helper(driver);
 	}
 
 	@AndroidFindBy(id = "com.play.android:id/btn_profile")

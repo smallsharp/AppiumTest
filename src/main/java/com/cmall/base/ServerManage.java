@@ -14,32 +14,33 @@ import org.apache.log4j.Logger;
 import com.cmall.utils.DDMlibUtil;
 import com.spring.constant.IServerArgs;
 
+/**
+ * 服务管理类
+ * @author cm
+ *
+ */
 public class ServerManage {
 
 	private static Logger log = Logger.getLogger(ServerManage.class);
 	private static final String KILL_NODE = "taskkill /F /im node.exe";
-	public static List<ServerConfig> serverConfigList = new ArrayList<>();
 	private static List<String> devicesName = DDMlibUtil.getInstance().getDevicesName();
+	private static List<Config> configs = new ArrayList<>();
 
 	static {
 		try {
-			checkEnvironment();
+			ServerManage.checkEnvironment();
+			String ip = IServerArgs.IP;
+			int port = 4723;
+			for (String name : devicesName) {
+				Config config = new Config();
+				config.setIp(ip);
+				config.setPort(port);
+				config.setName(name);
+				configs.add(config);
+				port += 2;
+			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
-	
-	static {
-		String ip = IServerArgs.IP;
-		int port = 4723;
-		for (String name : devicesName) {
-			ServerConfig config = new ServerConfig();
-			config.setIp(ip);
-			config.setPort(port);
-			config.setName(name);
-			port += 2;
-			serverConfigList.add(config);
 		}
 	}
 
@@ -48,8 +49,7 @@ public class ServerManage {
 		log.info("[环境准备阶段] ==> 检查测试依赖的环境,稍后…");
 		log.info("检测到可用设备：" + devicesName.size() + "台");
 		if (devicesName.size() <= 0) {
-			log.info("检测失败，程序退出，没有可用的连接设备！");
-			throw new Exception("没有可用的连接设备");
+			throw new Exception("没有检测到可用的连接设备");
 		}
 		try {
 			Runtime.getRuntime().exec(KILL_NODE);
@@ -59,38 +59,7 @@ public class ServerManage {
 		}
 		log.info("检测通过，稍后…");
 	}
-
-	/**
-	 * 多线程启动服务
-	 * 
-	 */
-	public static void startServer() {
-		
-		log.info("[服务器准备阶段] ==> 启动Appium服务器");
-		List<Thread> threadsList = new ArrayList<>();
-		
-		for (final ServerConfig config : serverConfigList) {
-			Thread thread = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					startAppiumServer(config.getIp(), config.getPort(), config.getName());
-				}
-			});
-			thread.start();
-			threadsList.add(thread);
-		}
-		
-		for (Thread thread : threadsList) {
-			try {
-				thread.join(); // 等待所有启动服务的子线程执行完毕，即每个run方法执行一次后，会执行一次join
-				log.info("执行join");
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
+	
 	/**
 	 * 启动Appium服务
 	 * 
@@ -98,7 +67,7 @@ public class ServerManage {
 	 * @param port
 	 * @param deviceName
 	 */
-	public static void startAppiumServer(String ip, int port, String deviceName) {
+	private static void startAppiumServer(String ip, int port, String deviceName) {
 
 		int bpport = port + 1;
 		int chromeport = port + 4792;
@@ -124,6 +93,37 @@ public class ServerManage {
 			e.printStackTrace();
 		}
 		log.info("Appium server is running on " + "[ip= " + ip +" ,deviceName= "+ deviceName + " ,port= " + port + "]");
+	}
+
+	/**
+	 * 多线程启动服务
+	 * 
+	 */
+	public static void startServer() {
+		
+		log.info("[服务器准备阶段] ==> 启动Appium服务器");
+		List<Thread> threadsList = new ArrayList<>();
+		
+		for (final Config config : configs) {
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					startAppiumServer(config.getIp(), config.getPort(), config.getName());
+				}
+			});
+			thread.start();
+			threadsList.add(thread);
+		}
+		
+		for (Thread thread : threadsList) {
+			try {
+				thread.join(); // 等待所有启动服务的子线程执行完毕，即每个run方法执行一次后，会执行一次join
+				log.info("执行join");
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**

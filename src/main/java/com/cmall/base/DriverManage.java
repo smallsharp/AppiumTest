@@ -12,7 +12,7 @@ public class DriverManage {
 	
 	private static Logger log = Logger.getLogger(DriverManage.class);
 	private static List<AndroidDriver<MobileElement>> driversList = new ArrayList<AndroidDriver<MobileElement>>();
-	private static List<ServerConfig> serverConfigList = new ArrayList<>();
+	private static List<Config> serverConfigList = new ArrayList<>();
 	private static List<String> devicesName = DDMlibUtil.getInstance().getDevicesName();
 	
 	public static List<AndroidDriver<MobileElement>> getDriverList(){
@@ -23,7 +23,7 @@ public class DriverManage {
 		String ip = IServerArgs.IP;
 		int port = 4723;
 		for (String name : devicesName) {
-			ServerConfig config = new ServerConfig();
+			Config config = new Config();
 			config.setIp(ip);
 			config.setPort(port);
 			config.setName(name);
@@ -38,7 +38,7 @@ public class DriverManage {
 	public static void initDriver() {
 		log.info("[驱动准备阶段] ==> 准备初始化");
 		List<Thread> threadList = new ArrayList<Thread>();
-		for (final ServerConfig config : serverConfigList) {
+		for (final Config config : serverConfigList) {
 			Thread thread = new Thread(new Runnable() {
 				@Override
 				public void run() {

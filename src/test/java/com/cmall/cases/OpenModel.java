@@ -51,7 +51,6 @@ public class OpenModel implements ITestCase {
 		// 点击二级目录 Tee
 		do {
 			driver.tap(1, x / 2, height / 6 + y, 500);
-			log.info("点击：TEE");
 		} while (!Helper.waitActivity(driver, ".activity.member.LoginActivity"));
 
 		// 跳转登录界面

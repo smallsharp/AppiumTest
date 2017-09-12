@@ -10,9 +10,12 @@ import com.cmall.cases.OpenModel;
 
 /**
  * 执行顺序：
- * 1.执行BeforeSuite，进行服务和driver的初始化
- * 2.执行@Test脚本
- * 3.执行AfterSuite
+ * 1.启动服务 ServerManage.startServer()
+ * 2.初始化driver DriverManage.initDriver()
+ * 3.执行测试用例
+ * 4.还原测试环境
+ * 
+ * 注：BeforeSuite和AfterSuite 只需要写一次
  * @author cm
  *
  */
@@ -29,12 +32,9 @@ public class TestOpenModel {
 		Execute.runTestCase(OpenModel.class);
 	}
 	
-	
 	@AfterSuite
 	public void finish() {
 		DriverManage.finish();
 	}
 	
-	
-
 }

@@ -1,15 +1,18 @@
 package com.cmall.base;
 
+import java.util.List;
+
 /**
  * 初始化Server和Driver时，需要的类
  * @author cm
  *
  */
-public class ServerConfig {
+public class Config {
 	
 	private String ip;
 	private int port;
 	private String name;
+	private List<Config> configs;
 	
 	public void setIp(String ip) {
 		this.ip = ip;
@@ -34,4 +37,14 @@ public class ServerConfig {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public List<Config> getConfigs() {
+		return configs;
+	}
+
+	public void setConfigs(List<Config> configs) {
+		this.configs = configs;
+	}
+	
+	
 }
