@@ -2,7 +2,7 @@ package com.cmall.base;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.log4j.Logger;
 import com.spring.constant.IServerArgs;
 
 /**
@@ -17,11 +17,13 @@ public class Environment {
 	private static List<Config> configs = new ArrayList<>();
 	private static List<String> devicesName = DDMlibUtil.getInstance().getDevicesName();
 	private static final String KILL_NODE = "taskkill /F /im node.exe";
+	private static Logger log = Logger.getLogger(Environment.class);
 	
 	public static List<Config> getConfigs() {
 		return Environment.configs;
 	}
 	
+	// 第一次调用getConfigs()时，需要执行，后面直接用即可。
 	static {
 		try {
 			addConfig();
@@ -32,6 +34,7 @@ public class Environment {
 	
 	public static void addConfig() throws Exception {
 		
+		log.info("检测可用连接设备！");
 		if (devicesName.size() <= 0) {
 			throw new Exception("没有检测到可用的连接设备");
 		}
@@ -47,5 +50,6 @@ public class Environment {
 			configs.add(config);
 			port += 2;
 		}
+		log.info("检测完成！");
 	}
 }
