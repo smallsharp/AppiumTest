@@ -38,7 +38,7 @@ public class OpenModel implements ITestCase {
 		// 点击 一级目录 男装,进入二级目录，如果由于某种原因导致未打开，则重新点击，直至打开页面
 		do {
 //			homeList.get(1).click();
-			Helper.clickonElement(homeList.get(1));
+			Helper.clickElement(homeList.get(1));
 		} while (!Helper.waitActivity(driver, IActivities.PRODUCT_CLASSIFITION_ACTIVITY));
 		
 		

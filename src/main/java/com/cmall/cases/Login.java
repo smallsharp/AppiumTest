@@ -25,7 +25,6 @@ public class Login implements ITestCase {
 	
 	@Override
 	public void runCase() {
-//		LoginPage loginPage = new LoginPage(driver);
 		LoginPage loginPage = new LoginPage();
 		PageFactory.initElements(new AppiumFieldDecorator(driver, 20, TimeUnit.SECONDS), loginPage);
 		loginPage.login("18521035133", "111111");

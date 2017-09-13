@@ -51,10 +51,10 @@ public class LoginPage {
 	 * @param password
 	 */
 	public void login(String mobile, String password) {
-		Helper.clickonElement(btn_profile);
-		Helper.clickonElement(tv_account);
+		Helper.clickElement(btn_profile);
+		Helper.clickElement(tv_account);
 		Helper.sendKeys(et_account, mobile);
 		Helper.sendKeys(e_password, password);
-		Helper.clickonElement(btn_login);
+		Helper.clickElement(btn_login);
 	}
 }
