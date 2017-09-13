@@ -67,7 +67,7 @@ public class ServerManage {
 		int bpport = port + 1;
 		int chromeport = port + 4792;
 		String launch_cmd = "appium.cmd -a " + ip + " -p " + port + " -bp " + bpport + " --chromedriver-port "
-				+ chromeport + " -U " + deviceName + " --session-override >c:/" + deviceName + System.currentTimeMillis() + ".txt";
+				+ chromeport + " -U " + deviceName + " --session-override >c:/" + deviceName + "_"+System.currentTimeMillis() + ".txt";
 		log.info(launch_cmd);
 		// 如果使用非阻塞执行:首先创建一个非阻塞的DefaultExecuteResultHandler，这个是专门用来处理非阻塞
 		DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
