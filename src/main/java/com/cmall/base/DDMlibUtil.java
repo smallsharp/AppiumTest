@@ -1,4 +1,4 @@
-package com.cmall.utils;
+package com.cmall.base;
 
 import java.util.ArrayList;
 import java.util.List;

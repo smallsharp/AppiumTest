@@ -3,33 +3,31 @@ package com.cmall.base;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
-import com.cmall.utils.DDMlibUtil;
-import com.spring.constant.IServerArgs;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+
+/**
+ * driver管理类
+ * 主要作用：
+ * 根据EnvironmentCheck.getConfigs()获取的配置信息，批量初始化driver
+ * 并将driver放到drivers中管理，以备后用
+ * 
+ * @author cm
+ *
+ */
 
 public class DriverManage {
 	
 	private static Logger log = Logger.getLogger(DriverManage.class);
-	private static List<AndroidDriver<MobileElement>> driversList = new ArrayList<AndroidDriver<MobileElement>>();
-	private static List<Config> serverConfigList = new ArrayList<>();
-	private static List<String> devicesName = DDMlibUtil.getInstance().getDevicesName();
-	
-	public static List<AndroidDriver<MobileElement>> getDriverList(){
-		return DriverManage.driversList;
-	}
+	private static List<Config> configs = Environment.getConfigs();
+	private static List<AndroidDriver<MobileElement>> drivers = new ArrayList<AndroidDriver<MobileElement>>();
 
-	static {
-		String ip = IServerArgs.IP;
-		int port = 4723;
-		for (String name : devicesName) {
-			Config config = new Config();
-			config.setIp(ip);
-			config.setPort(port);
-			config.setName(name);
-			port += 2;
-			serverConfigList.add(config);
-		}
+	/**
+	 * 
+	 * @return
+	 */
+	public static List<AndroidDriver<MobileElement>> getDriverList(){
+		return DriverManage.drivers;
 	}
 
 	/**
@@ -38,13 +36,13 @@ public class DriverManage {
 	public static void initDriver() {
 		log.info("[驱动准备阶段] ==> 准备初始化");
 		List<Thread> threadList = new ArrayList<Thread>();
-		for (final Config config : serverConfigList) {
+		for (final Config config : configs) {
 			Thread thread = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					// 分别初始化driver实例
 					AndroidDriver<MobileElement> driver = DriverFactory.initDriver(config.getIp(), config.getPort(),config.getName());
-					driversList.add(driver);
+					drivers.add(driver);
 				}
 			});
 			thread.start();
@@ -62,10 +60,10 @@ public class DriverManage {
 	}
 	
 	/**
-	 * 结束测试
+	 * 销毁driver
 	 */
 	public static void finish() {
-		for (AndroidDriver<MobileElement> driver : driversList) {
+		for (AndroidDriver<MobileElement> driver : drivers) {
 			driver.quit();
 		}
 	}

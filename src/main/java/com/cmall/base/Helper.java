@@ -22,11 +22,6 @@ public class Helper {
 	private static Logger log = Logger.getLogger(Helper.class);
 	private AndroidDriver<MobileElement> driver;
 	
-	public Helper(AndroidDriver<MobileElement> mdriver) {
-		this.driver = mdriver;
-	}
-	
-	
 	/**
 	 * 等待Activity指定的Activity出现，等待时间5秒钟
 	 * @param driver
@@ -141,7 +136,7 @@ public class Helper {
 	 * 
 	 * @param androidkeycode
 	 */
-	public void pressKeyCode(int androidkeycode) {
+	public void pressKeyCode(AndroidDriver<MobileElement> driver,int androidkeycode) {
 		log.info("[Press AndroidKeyCode] ==> " + androidkeycode);
 		driver.pressKeyCode(androidkeycode);
 	}

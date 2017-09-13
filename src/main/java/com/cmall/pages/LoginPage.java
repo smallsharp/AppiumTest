@@ -1,52 +1,48 @@
 package com.cmall.pages;
 
-import org.apache.log4j.Logger;
 import org.openqa.selenium.support.FindBy;
-
 import com.cmall.base.Helper;
-
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 
 /**
  * 简单的自动化脚本-登录页面-po模式的简单运用
  * 
+ * 业务逻辑中，如果需要用到driver，可以定义一个构造方法，将driver传进来
+ * 注意：默认的无参构造方法，必须要存在，否则调用页面的时候，反射会报错。
  * @author lee
  */
 public class LoginPage {
 
-	private static AndroidDriver<MobileElement> driver;
-	private Logger log = Logger.getLogger(LoginPage.class);
-
-	//init需要添加，反射时需要
-	public LoginPage() {
-	}
-
-	public LoginPage(AndroidDriver<MobileElement> driver) {
-		LoginPage.driver = driver;
-	}
-
+	/**
+	 * 我的 按钮
+	 */
 	@AndroidFindBy(id = "com.play.android:id/btn_profile")
 	private MobileElement btn_profile; // 我的
-
+	
+	/**
+	 * 账号密码 登录
+	 */
 	@FindBy(id = "com.play.android:id/tv_account")
 	private MobileElement tv_account; // 账号密码登录
 
+	/**
+	 * 手机号 输入框
+	 */
 	@FindBy(id = "com.play.android:id/et_account")
 	private MobileElement et_account; // 手机号
 
+	/**
+	 * 密码 输入框
+	 */
 	@FindBy(id = "com.play.android:id/et_password")
 	private MobileElement e_password; // 密码
-
+	
+	/**
+	 * 登录 按钮
+	 */
 	@FindBy(id = "com.play.android:id/btn_login")
 	private MobileElement btn_login; // 登录
-
-	@FindBy(id = "com.play.android:id/tv_sign_in")
-	private MobileElement tv_sign_in;
-
-	@FindBy(id = "com.play.android:id/cb_confrim_deal")
-	private MobileElement cb_confrim;
 
 	/**
 	 * 通过：手机号，密码登录
@@ -55,13 +51,10 @@ public class LoginPage {
 	 * @param password
 	 */
 	public void login(String mobile, String password) {
-		
 		Helper.clickonElement(btn_profile);
 		Helper.clickonElement(tv_account);
 		Helper.sendKeys(et_account, mobile);
 		Helper.sendKeys(e_password, password);
 		Helper.clickonElement(btn_login);
-		
 	}
-
 }

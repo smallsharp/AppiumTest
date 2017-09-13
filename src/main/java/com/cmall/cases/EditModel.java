@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.cmall.base.Helper;
-import com.cmall.base.ITestCase;
 import com.spring.constant.IActivities;
 import com.spring.constant.IDFactory;
 import io.appium.java_client.MobileElement;

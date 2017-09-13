@@ -11,8 +11,8 @@ import com.cmall.cases.OpenModel;
 /**
  * 执行顺序：
  * 1.启动服务 ServerManage.startServer()
- * 2.初始化driver DriverManage.initDriver()
- * 3.执行测试用例
+ * 2.初始化 driver DriverManage.initDriver()
+ * 3.执行测试用例 Execute.runTestCase(xxx.class)
  * 4.还原测试环境
  * 
  * 注：BeforeSuite和AfterSuite 只需要写一次

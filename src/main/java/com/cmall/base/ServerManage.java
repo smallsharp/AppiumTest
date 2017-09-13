@@ -11,11 +11,12 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.Executor;
 import org.apache.log4j.Logger;
-import com.cmall.utils.DDMlibUtil;
-import com.spring.constant.IServerArgs;
 
 /**
- * 服务管理类
+ * AppiumServer管理类
+ * 主要作用：根据EnvironmentCheck.getConfigs()获取到的配置信息，批量启动Appium服务程序
+ * 
+ * 
  * @author cm
  *
  */
@@ -23,42 +24,36 @@ public class ServerManage {
 
 	private static Logger log = Logger.getLogger(ServerManage.class);
 	private static final String KILL_NODE = "taskkill /F /im node.exe";
-	private static List<String> devicesName = DDMlibUtil.getInstance().getDevicesName();
-	private static List<Config> configs = new ArrayList<>();
+	private static List<Config> configs = Environment.getConfigs();
 
-	static {
-		try {
-			ServerManage.checkEnvironment();
-			String ip = IServerArgs.IP;
-			int port = 4723;
-			for (String name : devicesName) {
-				Config config = new Config();
-				config.setIp(ip);
-				config.setPort(port);
-				config.setName(name);
-				configs.add(config);
-				port += 2;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
-	private static void checkEnvironment() throws Exception {
+	public static void startServer() {
 		
-		log.info("[环境准备阶段] ==> 检查测试依赖的环境,稍后…");
-		log.info("检测到可用设备：" + devicesName.size() + "台");
-		if (devicesName.size() <= 0) {
-			throw new Exception("没有检测到可用的连接设备");
+		log.info("[服务器准备阶段] ==> 启动Appium服务器");
+		List<Thread> threadsList = new ArrayList<>();
+		for (final Config config : configs) {
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					// 批量启动服务
+					startAppiumServer(config.getIp(), config.getPort(), config.getName());
+				}
+			});
+			thread.start();
+			threadsList.add(thread);
 		}
-		try {
-			Runtime.getRuntime().exec(KILL_NODE);
-			Thread.sleep(500);
-		} catch (Exception e) {
-			e.printStackTrace();
+		
+		for (Thread thread : threadsList) {
+			try {
+				thread.join(); // 等待所有启动服务的子线程执行完毕，即每个run方法执行一次后，会执行一次join
+				log.info("执行join");
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-		log.info("检测通过，稍后…");
 	}
+	
 	
 	/**
 	 * 启动Appium服务
@@ -93,37 +88,6 @@ public class ServerManage {
 			e.printStackTrace();
 		}
 		log.info("Appium server is running on " + "[ip= " + ip +" ,deviceName= "+ deviceName + " ,port= " + port + "]");
-	}
-
-	/**
-	 * 多线程启动服务
-	 * 
-	 */
-	public static void startServer() {
-		
-		log.info("[服务器准备阶段] ==> 启动Appium服务器");
-		List<Thread> threadsList = new ArrayList<>();
-		
-		for (final Config config : configs) {
-			Thread thread = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					startAppiumServer(config.getIp(), config.getPort(), config.getName());
-				}
-			});
-			thread.start();
-			threadsList.add(thread);
-		}
-		
-		for (Thread thread : threadsList) {
-			try {
-				thread.join(); // 等待所有启动服务的子线程执行完毕，即每个run方法执行一次后，会执行一次join
-				log.info("执行join");
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	/**

@@ -5,16 +5,15 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.cmall.base.Helper;
-import com.cmall.base.ITestCase;
 import com.spring.constant.IActivities;
 import com.spring.constant.IDFactory;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 
-public class CheckGoods implements ITestCase {
+public class CheckModel implements ITestCase {
 
 	private AndroidDriver<MobileElement> driver;
-	private Logger log = Logger.getLogger(CheckGoods.class);
+	private Logger log = Logger.getLogger(CheckModel.class);
 
 	@Override
 	public void setDriver(AndroidDriver<MobileElement> driver) {
@@ -23,28 +22,55 @@ public class CheckGoods implements ITestCase {
 
 	@Override
 	public void runCase() {
-		this.showAllGoods();
+		this.rotateModel();
 	}
-
+	
 	/**
-	 * 遍历首屏的所有商品
+	 * 对模型进行旋转操作
+	 * adb shell screenrecord /sdcard/demo.mp4 录制屏幕
 	 */
-	private void showAllGoods() {
+	private void rotateModel() {
 		
 		if (!driver.currentActivity().equals(IActivities.GOODS_WEB3DVIEW_ACTIVITY)) {
 			this.gotoModel();
 		}
-		// 模型显示界面
-		List<MobileElement> m_iv_goods = driver.findElementsById(IDFactory.IV_GOOD);
-		int goods_length = m_iv_goods.size();
-		log.info("goods_length:" + goods_length);
+		
+		int width = driver.manage().window().getSize().width;
+		int height = driver.manage().window().getSize().height;
+		
+		log.info("向右滑动一个屏幕");
+		driver.swipe(10, height/2, width-10, height/2, 1000);
+		Helper.pause(1000);
+		log.info("向左滑动一个屏幕");
+		driver.swipe(width-10, height/2, 10, height/2, 1000);
+		Helper.pause(1000);
+		
+		log.info("向右滑动两个屏幕");
+		driver.swipe(10, height/2, width-10, height/2, 1000);
+		Helper.pause(1000);
+		
+		driver.swipe(10, height/2, width-10, height/2, 1000);
+		Helper.pause(2000);
+		
+		log.info("向左滑动两个屏幕");
+		driver.swipe(width-10, height/2, 10, height/2, 1000);
+		Helper.pause(1000);
+		
+		driver.swipe(width-10, height/2, 10, height/2, 1000);
+		Helper.pause(1000);
+		
+/*		for (int i = 0; i < 5; i++) {
+			log.info("缩放模型");
+			driver.pinch(width/2, height/2);
+			MultiTouchAction multiAction = new MultiTouchAction(driver);
+			TouchAction action1 = new TouchAction(driver).press(width/2, height-100).moveTo(width/2, height).release();
+			TouchAction action2 = new TouchAction(driver).press(width/2, height+100).moveTo(width/2, height).release();
+			multiAction.add(action1);
+			multiAction.add(action2);
+			driver.performMultiTouchAction(multiAction);
+			Helper.pause(1000);
+		}*/
 
-		for (int i = 0; i < goods_length; i++) {
-			m_iv_goods.get(i).click();
-			if (driver.findElementById(IDFactory.NAVTIVE_MODEL).isDisplayed()) {
-				assertTrue(true, "model is not displayed");
-			}
-		}
 	}
 
 	/**
