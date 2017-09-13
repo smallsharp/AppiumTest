@@ -40,6 +40,7 @@ public class CheckGoods implements ITestCase {
 
 		for (int i = 0; i < goods_length; i++) {
 			m_iv_goods.get(i).click();
+			log.info("点击：第"+i+"个商品");
 			if (driver.findElementById(IDFactory.NAVTIVE_MODEL).isDisplayed()) {
 				assertTrue(true, "model is not displayed");
 			}
@@ -52,7 +53,6 @@ public class CheckGoods implements ITestCase {
 	private void gotoModel() {
 		
 		List<MobileElement> homeList = driver.findElementsById(IDFactory.SDV_IMAGE);
-
 		if (homeList.size() < 1) {
 			assertTrue(false, "首页产品List，没有加载成功");
 		}
