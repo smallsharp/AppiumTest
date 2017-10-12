@@ -36,7 +36,7 @@ public class Environment {
 		
 		log.info("检测可用连接设备！");
 		if (devicesName.size() <= 0) {
-			throw new Exception("没有检测到可用的连接设备");
+			throw new Exception("没有检测到可用设备");
 		}
 		Runtime.getRuntime().exec(KILL_NODE);
 		Thread.sleep(500);

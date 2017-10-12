@@ -6,6 +6,7 @@ import org.openqa.selenium.support.PageFactory;
 import com.cmall.pages.LoginPage;
 import com.spring.constant.IDFactory;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
@@ -25,9 +26,10 @@ public class Login implements ITestCase {
 	
 	@Override
 	public void runCase() {
-		LoginPage loginPage = new LoginPage();
-		PageFactory.initElements(new AppiumFieldDecorator(driver, 20, TimeUnit.SECONDS), loginPage);
-		loginPage.login("18521035133", "111111");
+//		LoginPage loginPage = new LoginPage();
+//		PageFactory.initElements(new AppiumFieldDecorator(driver, 20, TimeUnit.SECONDS), loginPage);
+//		loginPage.login("18521035133", "111111");
+		login("18521035133", "111111");
 	}
 	
 	/**
@@ -35,12 +37,21 @@ public class Login implements ITestCase {
 	 * @param account 账号
 	 * @param password 密码
 	 */
-	@SuppressWarnings("unused")
 	private void login(String account,String password) {
 		driver.findElementById(IDFactory.BTN_PROFILE).click();
 		driver.findElementById(IDFactory.TV_ACCOUNT).click();
 		driver.findElementById(IDFactory.ET_ACCOUNT).sendKeys(account);
 		driver.findElementById(IDFactory.ET_PASSWORD).sendKeys(password);
+		TouchAction action = new TouchAction(driver).press(270, 1640);
+		action.perform().release();
+		System.out.println("++++++++++++++++++++");
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		driver.findElementById(IDFactory.BTN_LOGIN).click();
 	}
 }

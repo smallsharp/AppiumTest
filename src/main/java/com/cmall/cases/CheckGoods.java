@@ -8,6 +8,7 @@ import com.cmall.base.Helper;
 import com.spring.constant.IActivities;
 import com.spring.constant.IDFactory;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 
 public class CheckGoods implements ITestCase {
@@ -68,7 +69,8 @@ public class CheckGoods implements ITestCase {
 		
 		// 点击二级目录 Tee
 		do {
-			driver.tap(1, x / 2, height / 6 + y, 500);
+//			driver.tap(1, x / 2, height / 6 + y, 500);
+			new TouchAction(driver).press(x / 2, height / 6 + y).perform().release();
 			log.info("点击：TEE");
 		} while (!Helper.waitActivity(driver, ".activity.member.LoginActivity"));
 
@@ -85,7 +87,8 @@ public class CheckGoods implements ITestCase {
 		}
 		// 点击二级目录 Tee
 		do {
-			driver.tap(1, x / 2, height / 6 + y, 500);
+//			driver.tap(1, x / 2, height / 6 + y, 500);
+			new TouchAction(driver).press(x / 2, height / 6 + y).perform().release();
 		} while (!Helper.waitActivity(driver, IActivities.GOODS_WEB3DVIEW_ACTIVITY));
 		
 		log.info("进入模型界面");

@@ -71,7 +71,8 @@ public class Helper {
 	 * @param element
 	 */
 	public static void clickElement(MobileElement mobileElement) { 
-		log.info("[Click] ==> " + "(" + splitElement(mobileElement) + ")");
+//		log.info("[Click] ==> " + "(" + splitElement(mobileElement) + ")");
+		log.info("click:"+mobileElement);
 		mobileElement.click();
 	}
 
@@ -82,7 +83,8 @@ public class Helper {
 	 * @param text
 	 */
 	public static void sendKeys(MobileElement mobileElement, CharSequence... text) {
-		log.info("[Input] ==> " + "(" + splitElement(mobileElement) + ")");
+//		log.info("[Input] ==> " + "(" + splitElement(mobileElement) + ")");
+		log.info("sendkey:"+ mobileElement);
 		mobileElement.sendKeys(text);
 	}
 
@@ -200,8 +202,17 @@ public class Helper {
 	private static String splitElement(MobileElement mobileElement) {
 		// 用"->"分割，分成数组，取下标为1的
 		// [[MyAndroidDriver: on LINUX (750e968d-5203-408c-9407-cf695a5eb436)]-> id: com.tude.android:id/btn_jump]
-		String str = mobileElement.toString().split("-> ")[1];
-		return str.substring(0, str.length() - 1);
+		// Located by By.id: com.play.android:id/tv_account
+		String arr[] = mobileElement.toString().split(":");
+		StringBuffer sb = new StringBuffer();
+		
+		for (int i = 0; i < arr.length; i++) {
+			
+			if (i==arr.length-1 || i== arr.length-2) {
+				sb.append(arr[i]);
+			}
+		}
+		return sb.toString().trim();
 	}
 
 	/**

@@ -7,8 +7,14 @@ import com.cmall.base.Helper;
 import com.spring.constant.IActivities;
 import com.spring.constant.IDFactory;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 
+/**
+ * 未使用po模式
+ * @author cm
+ *
+ */
 public class OpenModel implements ITestCase {
 
 	private AndroidDriver<MobileElement> driver;
@@ -41,7 +47,6 @@ public class OpenModel implements ITestCase {
 			Helper.clickElement(homeList.get(1));
 		} while (!Helper.waitActivity(driver, IActivities.PRODUCT_CLASSIFITION_ACTIVITY));
 		
-		
 		MobileElement m_tee_native = driver.findElementById(IDFactory.NAVIVE_TEE);
 		int x = m_tee_native.getLocation().getX();
 		int y = m_tee_native.getLocation().getY();
@@ -49,7 +54,8 @@ public class OpenModel implements ITestCase {
 		
 		// 点击二级目录 Tee
 		do {
-			driver.tap(1, x / 2, height / 6 + y, 500);
+//			driver.tap(1, x / 2, height / 6 + y, 500);
+			new TouchAction(driver).press(x/2, height/6 + y).perform().release();
 		} while (!Helper.waitActivity(driver, ".activity.member.LoginActivity"));
 
 		// 跳转登录界面
@@ -65,7 +71,8 @@ public class OpenModel implements ITestCase {
 		}
 		// 点击二级目录 Tee
 		do {
-			driver.tap(1, x / 2, height / 6 + y, 500);
+//			driver.tap(1, x / 2, height / 6 + y, 500);
+			new TouchAction(driver).press(x/2, height/6+y).perform().release();
 		} while (!Helper.waitActivity(driver, IActivities.GOODS_WEB3DVIEW_ACTIVITY));
 		
 		log.info("进入：模型界面");
